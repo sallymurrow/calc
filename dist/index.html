@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:site_name" content="Официальный сайт компании «Инфорком».">
+  <meta property="og:title" content="Топливные карты для ИП и юридических лиц.">
+  <meta property="og:description" content="Заправляйтесь со скидкой 6% без комиссий и сервисных сборов на более 6000 АЗС.">
+  <meta property="og:image" itemprop="image" content="/images/og_icon.png">
+  <meta property="og:type" content="website">
+  <meta name="keywords" content="топливные карты для юр лиц, топливные карты ип, топливные карты для юридических лиц">
+  <!-- <base href="https://promo.inforkom.ru">     -->
+  <title>Топливные карты для ИП и юридических лиц.</title>
+  <link rel="stylesheet" href="main.css" type="text/css">
+</head>
+<body>
+  <header class="w-full absolute z-50">
+  </header>
+  <main class="w-full flex flex-col">
+
+    <section id="baloon" class="relative order-3 xl:order-4 lg:order-4">
+      <!-- <img class="w-full" src="assets/airbaloon-bg.png"> -->
+      <picture class="w-full">
+        <source srcset="assets/baloon_mob.png" media="(max-width: 900px)" type="image/png" />
+        <source srcset="assets/airbaloon-bg.png" media="(min-width: 900px)" type="image/png" />
+        <img class="w-full" src="assets/airbaloon-bg.png" alt="" loading="lazy" />
+      </picture>
+      <div class="absolute inset-0">
+        <div class="w-full lg:w-2/3 xl:w-2/3 flex flex-col h-full items-center pt-32 pb-20 xl:pb-0 lg:pb-0 xl:pt-0 lg:pt-0">
+          <div class="w-5/6 flex flex-col h-full justify-center">
+            <h3 class="gothic main-h3 text-white pt-8 text-3xl md:text-5xl">Топливный калькулятор</h3>
+            <p class="text-2xl leading-9 text-white">Рассчитайте экономию с топливной картой Инфорком</p>
+            <div class="flex flex-wrap lg:flex-nowrap xl:flex-nowrap items-center mt-16">
+              <button type="button" class="bttn text-white text-lg md:text-3xl leading-8 py-2 w-full xl:w-auto lg:w-auto px-auto md:px-7 xl:px-15 rounded-full cursor-pointer mb-5 xl:mb-0 lg:mb-0" style="background-color: #FBA834;"
+                onclick="showCalc()">Рассчитать экономию</button>
+              <!-- <img class="w-20 xl:ml-6 lg:ml-6 max-h-20" src="assets/play_button.png" />
+                <span class="self-center ml-2 xl:ml-6 lg:ml-6 text-white text-lg">Как управлять картой?</span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calc" class="w-full bg-heroGray-100 z-50 order-3 md:order-5 hidden">
+      <div class="w-full md:w-[728px] mx-auto text-center py-3 px-2 md:px-5">
+        <h3 class="gothic text-[23px] md:text-[40px] pt-5 md:pt-10 text-left">Топливный калькулятор</h3>
+        <p class="pt-3 text-[15px] md:text-xl grey text-left">Рассчитайте сколько сэкономит топливная карта Инфорком</p>
+        <div class="w-full mt-4">
+          <div class="flex">
+            <div class="grow">
+              <input type="text" id="geo1" placeholder="Введите регион перевозок" class="geo">
+            </div>
+            <button role="button" id="geoplus" class="geo w-[78px] h-[78px] mt-9" onclick="plusGeo(this)">+</button>
+          </div>
+          <input type="text" id="geo2" placeholder="Дополнительный регион" class="geo hidden">
+          <div class="button-block">
+            <button type="button" onclick="btnHandler(this)" data-ftype="dt" class="bttn-block left active">ДТ</button>
+            <button type="button" onclick="btnHandler(this)" data-ftype="petrol" class="bttn-block">БЕНЗИН</button>
+            <button type="button" onclick="btnHandler(this)" data-ftype="gaz" class="bttn-block right">ГАЗ</button>
+          </div>
+          <div class="w-full my-6">
+            <div class="calculate-text"><span class="calc-title flex-1 text-left">Потребление топлива</span><span class="calc-value font-bold"></span></div>
+            <div class="calculate-slider">
+              <div id="slider1"></div>
+            </div>
+          </div>
+          <div class="w-full my-6">
+            <div class="calculate-text"><span class="calc-title flex-1 text-left">Ваш автопарк</span><span class="calc-value font-bold"></span></div>
+            <div class="calculate-slider">
+              <div id="slider2"></div>
+            </div>
+          </div>
+          <div id="vat_select" class="w-full my-20">
+            <div class="flex">
+              <button type="button" onclick="btnHandler(this)" data-vat="1" class="bttn-block left active">НДС</button>
+              <button type="button" onclick="btnHandler(this)" data-vat="0" class="bttn-block right">БЕЗ НДС</button>
+            </div>
+          </div>
+          <div class="w-full my-20">
+            <button type="button" id="showResults" class="w-full bttn blue flex items-center justify-center" onclick="showResults()">
+              <svg class="mr-2" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 4.5H1.5V24H24V4.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M24 12H30L34.5 16.5V24H24V12Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.25 31.5C10.3211 31.5 12 29.8211 12 27.75C12 25.6789 10.3211 24 8.25 24C6.17893 24 4.5 25.6789 4.5 27.75C4.5 29.8211 6.17893 31.5 8.25 31.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M27.75 31.5C29.8211 31.5 31.5 29.8211 31.5 27.75C31.5 25.6789 29.8211 24 27.75 24C25.6789 24 24 25.6789 24 27.75C24 29.8211 25.6789 31.5 27.75 31.5Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              Рассчитать экономию
+            </button>
+          </div>
+
+
+          <div id="calcResult" class="w-full hidden md:pt-5" style="background: url(assets/paper-bg.png);box-shadow:6px 8px 16px 0px #0000001A;">
+            <div class="w-full my-20">
+              <div id="charts" class="h-96"></div>
+            </div>
+            <div class="w-full mt-20 pb-9">
+              <div id="legend" class="h-96 flex flex-col px-3 xl:px-10">
+                <span class="legend_hl"></span>
+                <span class="legend_record"><span class="label grey"></span>Расходы на топливо<span id="total_fuel" class="amount">0.00 &#8381;</span></span>
+                <span class="legend_hl"></span>
+                <span class="legend_record font-bold mb-4">Экономия на топливе</span>
+                <span class="legend_record mb-4"><span class="label orange"></span>Скидка на топливо<span id="total_discount" class="amount">0.00 &#8381;</span></span>
+                <span class="legend_record mb-4"><span class="label green"></span>НДС 20%<span id="total_vat" class="amount">0.00 &#8381;</span></span>
+                <span class="legend_record mb-4"><span class="label blue"></span>Выбор лучших цен 1,7%<span id="total_manage" class="amount">0.00 &#8381;</span></span>
+                <span class="legend_hl"></span>
+                <span class="legend_record font-bold">ИТОГО<span id="total_total" class="amount">0.00 &#8381;</span></span>
+              </div>
+              <img src="assets/LogoBG.png" class="mx-auto my-0 w-[110px] md:w-auto" alt="inforkom">
+              <a href="https://inforkom.ru/images/docs/kp_2.pdf" target="_blank" class="bttn heroblue w-11/12 md:w-auto text-[21px] md:text-3xl px-1 md:px-3 rounded-full mt-7 mb-7 md:mt-16 md:mb-28">Коммерческое предложение</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(w, d, u) {
+      var s = d.createElement('script');
+      s.async = true;
+      s.src = u + '?' + (Date.now() / 60000 | 0);
+      var h = d.getElementsByTagName('script')[0];
+      h.parentNode.insertBefore(s, h);
+    })(window, document, 'https://bitrix.inforkom.ru/upload/crm/site_button/loader_5_zn4uyy.js');
+  </script>
+  <script src="bundle.js"></script>
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m, e, t, r, i, k, a) {
+      m[i] = m[i] || function() {
+        (m[i].a = m[i].a || []).push(arguments)
+      };
+      m[i].l = 1 * new Date();
+      k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    ym(84361288, "init", {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true
+    });
+  </script> <noscript>
+    <div><img src="https://mc.yandex.ru/watch/84361288" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript> <!-- /Yandex.Metrika counter -->
+  <script>
+    (function(w, d, u) {
+      var s = d.createElement('script');
+      s.async = true;
+      s.src = u + '?' + (Date.now() / 60000 | 0);
+      var h = d.getElementsByTagName('script')[0];
+      h.parentNode.insertBefore(s, h);
+    })(window, document, 'https://bitrix.inforkom.ru/upload/crm/site_button/loader_5_zn4uyy.js');
+  </script>
+</body>
+
+</html>
